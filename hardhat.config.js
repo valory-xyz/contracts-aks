@@ -1,6 +1,6 @@
 /*global process*/
 
-//require("hardhat-deploy");
+require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 require("hardhat-gas-reporter");
 require("hardhat-tracer");
@@ -8,12 +8,7 @@ require("@nomicfoundation/hardhat-chai-matchers");
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 require("@nomicfoundation/hardhat-toolbox");
-// storage layout tool
-// require('hardhat-storage-layout');
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 const accounts = {
     mnemonic: "test test test test test test test test test test test junk",
     accountsBalance: "100000000000000000000000000000",
@@ -30,19 +25,13 @@ module.exports = {
     solidity: {
         compilers: [
             {
-                version: "0.8.18",
+                version: "0.8.19",
                 settings: {
                     optimizer: {
                         enabled: true,
-                        runs: 4000,
+                        runs: 1000000,
                     },
                 },
-            },
-            {
-                version: "0.5.16", // uniswap
-            },
-            {
-                version: "0.6.6", // uniswap
             }
         ]
     },

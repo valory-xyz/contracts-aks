@@ -28,7 +28,7 @@
     "@typechain/hardhat": "^6.1.5",
     "@types/mocha": "^10.0.1",
     "chai": "^4.3.7",
-    "eslint": "^8.346.0",
+    "eslint": "^8.36.0",
     "ethers": "^5.7.2",
     "hardhat": "^2.13.0",
     "hardhat-contract-sizer": "^2.8.0",
