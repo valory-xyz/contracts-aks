@@ -1,0 +1,59 @@
+
+Version
+=======
+> solidity-coverage: v0.8.2
+
+Instrumenting for coverage...
+=============================
+
+> interfaces/IErrors.sol
+> interfaces/IRegistry.sol
+> JobRegistry.sol
+> test/MockRegistry.sol
+
+Compilation:
+============
+
+Compiled 4 Solidity files successfully
+
+Network Info
+============
+> HardhatEVM: v2.13.0
+> network:    hardhat
+
+
+
+  JobRegistry
+    Initialization
+      ✔ Deploying with the zero componentRegistry address
+      ✔ Changing the owner
+    Job registration
+      ✔ Should fail when propose with incorrect values (81ms)
+      ✔ Propose the same pair
+      ✔ Propose (58ms)
+      ✔ Propose several longer sets (570ms)
+      ✔ Should fail when accepting with incorrect values (81ms)
+      ✔ Accept (80ms)
+      ✔ Should fail when removing with incorrect values
+      ✔ Remove (127ms)
+      ✔ Remove by the contract owner (148ms)
+      ✔ Remove after accepting and removing again (187ms)
+
+
+  12 passing (2s)
+
+-----------------------|----------|----------|----------|----------|----------------|
+File                   |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+-----------------------|----------|----------|----------|----------|----------------|
+ contracts/            |      100 |      100 |      100 |      100 |                |
+  JobRegistry.sol      |      100 |      100 |      100 |      100 |                |
+ contracts/interfaces/ |      100 |      100 |      100 |      100 |                |
+  IErrors.sol          |      100 |      100 |      100 |      100 |                |
+  IRegistry.sol        |      100 |      100 |      100 |      100 |                |
+ contracts/test/       |      100 |      100 |      100 |      100 |                |
+  MockRegistry.sol     |      100 |      100 |      100 |      100 |                |
+-----------------------|----------|----------|----------|----------|----------------|
+All files              |      100 |      100 |      100 |      100 |                |
+-----------------------|----------|----------|----------|----------|----------------|
+
+> Istanbul reports written to ./coverage/ and ./coverage.json

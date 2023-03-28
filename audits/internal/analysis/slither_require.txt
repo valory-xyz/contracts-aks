@@ -1,0 +1,25 @@
+
+Contract JobRegistry
++-------------------------------------+-------------------+
+|               Function              | require or assert |
++-------------------------------------+-------------------+
+|             constructor             |                   |
+|             changeOwner             |                   |
+|               propose               |                   |
+|                accept               |                   |
+|                remove               |                   |
+|               getPairs              |                   |
+|          getComponentIdHash         |                   |
+|            isAcceptedJob            |                   |
+|       isAcceptedJobComponentId      |                   |
+| slitherConstructorConstantVariables |                   |
++-------------------------------------+-------------------+
+
+Contract IRegistry
++----------+-------------------+
+| Function | require or assert |
++----------+-------------------+
+|  exists  |                   |
+| getUnit  |                   |
++----------+-------------------+
+. analyzed (3 contracts)

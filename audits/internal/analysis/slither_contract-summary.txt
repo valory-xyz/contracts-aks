@@ -1,0 +1,21 @@
+
++ Contract JobRegistry (Most derived contract)
+  - From JobRegistry
+    - accept(address[],uint256[]) (external)
+    - changeOwner(address) (external)
+    - constructor(address) (public)
+    - getComponentIdHash(address) (external)
+    - getPairs(bool) (external)
+    - isAcceptedJob(address) (external)
+    - isAcceptedJobComponentId(address,uint256) (external)
+    - propose(address[],uint256[]) (external)
+    - remove(address[],uint256[]) (external)
+
++ Contract IErrors
+
++ Contract IRegistry (Most derived contract)
+  - From IRegistry
+    - exists(uint256) (external)
+    - getUnit(uint256) (external)
+
+. analyzed (3 contracts)
