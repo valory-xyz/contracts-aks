@@ -1,0 +1,32 @@
+
+Contract JobRegistry
++-------------------------------------+---------------------------------------------------------+---------------------------------------------------------------------------------+
+|               Function              |                 State variables written                 |                             Conditions on msg.sender                            |
++-------------------------------------+---------------------------------------------------------+---------------------------------------------------------------------------------+
+|             constructor             |              ['componentRegistry', 'owner']             |                                        []                                       |
+|             changeOwner             |                        ['owner']                        |                             ['msg.sender != owner']                             |
+|               propose               | ['mapPairAccounts', 'mapProposals', 'numProposedPairs'] |                                        []                                       |
+|                accept               |                  ['mapAcceptedJobIds']                  |                             ['msg.sender != owner']                             |
+|                remove               |         ['mapAcceptedJobIds', 'mapPairAccounts']        | ['msg.sender != owner && msg.sender != mapPairAccounts[jobAddressComponentId]'] |
+|               getPairs              |                            []                           |                                        []                                       |
+|          getComponentIdHash         |                            []                           |                                        []                                       |
+|            isAcceptedJob            |                            []                           |                                        []                                       |
+|       isAcceptedJobComponentId      |                            []                           |                                        []                                       |
+| slitherConstructorConstantVariables |                       ['SENTINEL']                      |                                        []                                       |
++-------------------------------------+---------------------------------------------------------+---------------------------------------------------------------------------------+
+
+Contract IErrors
++----------+-------------------------+--------------------------+
+| Function | State variables written | Conditions on msg.sender |
++----------+-------------------------+--------------------------+
++----------+-------------------------+--------------------------+
+
+Contract IRegistry
++----------+-------------------------+--------------------------+
+| Function | State variables written | Conditions on msg.sender |
++----------+-------------------------+--------------------------+
+|  exists  |            []           |            []            |
+| getUnit  |            []           |            []            |
++----------+-------------------------+--------------------------+
+
+. analyzed (3 contracts)

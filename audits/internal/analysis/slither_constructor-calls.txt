@@ -1,0 +1,25 @@
+
+###########################
+####### JobRegistry #######
+###########################
+
+## Constructor Call Sequence
+	- JobRegistry
+
+## Constructor Definitions
+
+### JobRegistry
+
+     constructor(address _componentRegistry)
+    {
+        owner = msg.sender;
+
+        // Check for at least one zero contract address
+        if (_componentRegistry == address(0)) {
+            revert ZeroAddress();
+        }
+
+        componentRegistry = _componentRegistry;
+    }
+
+. analyzed (3 contracts)

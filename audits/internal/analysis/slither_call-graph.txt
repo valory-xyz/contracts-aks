@@ -1,0 +1,5 @@
+Call Graph: ./JobRegistry.sol.all_contracts.call-graph.dot
+Call Graph: ./JobRegistry.sol.JobRegistry.call-graph.dot
+Call Graph: ./JobRegistry.sol.IRegistry.call-graph.dot
+
+. analyzed (3 contracts)

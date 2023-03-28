@@ -1,0 +1,25 @@
+
+Contract JobRegistry
++-------------------------------------+-----------+
+|               Function              | Modifiers |
++-------------------------------------+-----------+
+|             constructor             |     []    |
+|             changeOwner             |     []    |
+|               propose               |     []    |
+|                accept               |     []    |
+|                remove               |     []    |
+|               getPairs              |     []    |
+|          getComponentIdHash         |     []    |
+|            isAcceptedJob            |     []    |
+|       isAcceptedJobComponentId      |     []    |
+| slitherConstructorConstantVariables |     []    |
++-------------------------------------+-----------+
+
+Contract IRegistry
++----------+-----------+
+| Function | Modifiers |
++----------+-----------+
+|  exists  |     []    |
+| getUnit  |     []    |
++----------+-----------+
+. analyzed (3 contracts)

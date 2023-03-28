@@ -1,0 +1,8 @@
+
+JobRegistry.propose(address[],uint256[]).firstPair (JobRegistry.sol#96) is a local variable never initialized
+JobRegistry.getPairs(bool).numActualPairs (JobRegistry.sol#221) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+
+JobRegistry.propose(address[],uint256[]) (JobRegistry.sol#62-134) has external calls inside a loop: ! IRegistry(componentRegistry).exists(componentIds[i]) (JobRegistry.sol#87)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+
