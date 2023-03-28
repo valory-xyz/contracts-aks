@@ -1,0 +1,19 @@
+
+JobRegistry:
++-------------------------------+-----------------------------+------+--------+
+|              Name             |             Type            | Slot | Offset |
++-------------------------------+-----------------------------+------+--------+
+|       JobRegistry.owner       |           address           |  0   |   0    |
+|  JobRegistry.numProposedPairs |           uint256           |  1   |   0    |
+|    JobRegistry.mapProposals   | mapping(uint256 => uint256) |  2   |   0    |
+|  JobRegistry.mapPairAccounts  | mapping(uint256 => address) |  3   |   0    |
+| JobRegistry.mapAcceptedJobIds | mapping(address => uint256) |  4   |   0    |
++-------------------------------+-----------------------------+------+--------+
+
+IRegistry:
++------+------+------+--------+
+| Name | Type | Slot | Offset |
++------+------+------+--------+
++------+------+------+--------+
+
+. analyzed (3 contracts)

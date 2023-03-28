@@ -1,0 +1,65 @@
+
+Contract JobRegistry
+Contract vars: ['SENTINEL', 'componentRegistry', 'owner', 'numProposedPairs', 'mapProposals', 'mapPairAccounts', 'mapAcceptedJobIds']
+Inheritance:: ['IErrors']
+ 
++-------------------------------------------+------------+-----------+--------------------------------------------+------------------------------------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+|                  Function                 | Visibility | Modifiers |                    Read                    |                  Write                   |                                    Internal Calls                                    |                           External Calls                           |
++-------------------------------------------+------------+-----------+--------------------------------------------+------------------------------------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+|            constructor(address)           |   public   |     []    |               ['msg.sender']               |      ['componentRegistry', 'owner']      |                               ['revert ZeroAddress()']                               |                                 []                                 |
+|            changeOwner(address)           |  external  |     []    |          ['msg.sender', 'owner']           |                ['owner']                 |            ['revert OwnerOnly(address,address)', 'revert ZeroAddress()']             |                                 []                                 |
+|        propose(address[],uint256[])       |  external  |     []    |     ['SENTINEL', 'componentRegistry']      |   ['mapPairAccounts', 'mapProposals']    | ['revert AlreadyProposed(address,uint256)', 'revert ComponentDoesNotExist(uint256)'] |      ['IRegistry(componentRegistry).exists(componentIds[i])']      |
+|                                           |            |           |    ['mapPairAccounts', 'mapProposals']     |           ['numProposedPairs']           |   ['revert Overflow(uint256,uint256)', 'revert WrongArrayLength(uint256,uint256)']   |                                                                    |
+|                                           |            |           |     ['msg.sender', 'numProposedPairs']     |                                          |                    ['revert ZeroAddress()', 'revert ZeroValue()']                    |                                                                    |
+|        accept(address[],uint256[])        |  external  |     []    |     ['mapPairAccounts', 'msg.sender']      |          ['mapAcceptedJobIds']           |     ['revert NotProposed(address,uint256)', 'revert Overflow(uint256,uint256)']      |                                 []                                 |
+|                                           |            |           |                 ['owner']                  |                                          |  ['revert OwnerOnly(address,address)', 'revert WrongArrayLength(uint256,uint256)']   |                                                                    |
+|                                           |            |           |                                            |                                          |                                ['revert ZeroValue()']                                |                                                                    |
+|        remove(address[],uint256[])        |  external  |     []    |  ['mapAcceptedJobIds', 'mapPairAccounts']  | ['mapAcceptedJobIds', 'mapPairAccounts'] |  ['revert OwnerOnly(address,address)', 'revert WrongArrayLength(uint256,uint256)']   |                                 []                                 |
+|                                           |            |           |          ['msg.sender', 'owner']           |                                          |                                ['revert ZeroValue()']                                |                                                                    |
+|               getPairs(bool)              |  external  |     []    |     ['SENTINEL', 'mapAcceptedJobIds']      |                    []                    |                                          []                                          | ['new address[](numActualPairs)', 'new uint256[](numActualPairs)'] |
+|                                           |            |           |    ['mapPairAccounts', 'mapProposals']     |                                          |                                                                                      |                    ['new uint256[](numPairs)']                     |
+|                                           |            |           |            ['numProposedPairs']            |                                          |                                                                                      |                                                                    |
+|        getComponentIdHash(address)        |  external  |     []    | ['componentRegistry', 'mapAcceptedJobIds'] |                    []                    |                                          []                                          |       ['IRegistry(componentRegistry).getUnit(componentId)']        |
+|           isAcceptedJob(address)          |  external  |     []    |           ['mapAcceptedJobIds']            |                    []                    |                                          []                                          |                                 []                                 |
+| isAcceptedJobComponentId(address,uint256) |  external  |     []    |           ['mapAcceptedJobIds']            |                    []                    |                                          []                                          |                                 []                                 |
+|   slitherConstructorConstantVariables()   |  internal  |     []    |                     []                     |               ['SENTINEL']               |                                          []                                          |                                 []                                 |
++-------------------------------------------+------------+-----------+--------------------------------------------+------------------------------------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract IErrors
+Contract vars: []
+Inheritance:: []
+ 
++----------+------------+-----------+------+-------+----------------+----------------+
+| Function | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++----------+------------+-----------+------+-------+----------------+----------------+
++----------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+
+Contract IRegistry
+Contract vars: []
+Inheritance:: []
+ 
++------------------+------------+-----------+------+-------+----------------+----------------+
+|     Function     | Visibility | Modifiers | Read | Write | Internal Calls | External Calls |
++------------------+------------+-----------+------+-------+----------------+----------------+
+| exists(uint256)  |  external  |     []    |  []  |   []  |       []       |       []       |
+| getUnit(uint256) |  external  |     []    |  []  |   []  |       []       |       []       |
++------------------+------------+-----------+------+-------+----------------+----------------+
+
++-----------+------------+------+-------+----------------+----------------+
+| Modifiers | Visibility | Read | Write | Internal Calls | External Calls |
++-----------+------------+------+-------+----------------+----------------+
++-----------+------------+------+-------+----------------+----------------+
+
+. analyzed (3 contracts)

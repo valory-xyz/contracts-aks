@@ -1,0 +1,552 @@
+
+Contract JobRegistry
++-------------------+--------------------------------------------------------------------------------------------+
+|      Variable     |                                        Dependencies                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+|      SENTINEL     |                                        ['SENTINEL']                                        |
+| componentRegistry |                        ['_componentRegistry', 'componentRegistry']                         |
+|       owner       |                            ['msg.sender', 'newOwner', 'owner']                             |
+|  numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| mapAcceptedJobIds |                           ['componentIds', 'mapAcceptedJobIds']                            |
++-------------------+--------------------------------------------------------------------------------------------+
+
+Function constructor(address)
++-------------------------------+------------------------+
+|            Variable           |      Dependencies      |
++-------------------------------+------------------------+
+|       _componentRegistry      |           []           |
+|      JobRegistry.SENTINEL     |           []           |
+| JobRegistry.componentRegistry | ['_componentRegistry'] |
+|       JobRegistry.owner       |     ['msg.sender']     |
+|  JobRegistry.numProposedPairs |           []           |
+|    JobRegistry.mapProposals   |           []           |
+|  JobRegistry.mapPairAccounts  |           []           |
+| JobRegistry.mapAcceptedJobIds |           []           |
++-------------------------------+------------------------+
+Function changeOwner(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|            newOwner           |           []          |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       | ['newOwner', 'owner'] |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds |           []          |
++-------------------------------+-----------------------+
+Function propose(address[],uint256[])
++-------------------------------+--------------------------------------------------------------------------------------------+
+|            Variable           |                                        Dependencies                                        |
++-------------------------------+--------------------------------------------------------------------------------------------+
+|              jobs             |                                          ['jobs']                                          |
+|          componentIds         |                                      ['componentIds']                                      |
+|               i               |                                           ['i']                                            |
+|            numPairs           |                              ['numPairs', 'numProposedPairs']                              |
+|          initNumPairs         |                              ['numPairs', 'numProposedPairs']                              |
+|          currentPair          |        ['SENTINEL', 'componentIds', 'currentPair', 'jobAddressComponentId', 'jobs']        |
+|           firstPair           |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|           i_scope_0           |                                       ['i_scope_0']                                        |
+|     jobAddressComponentId     |                     ['componentIds', 'jobAddressComponentId', 'jobs']                      |
+|       pairAlreadyExists       |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|      JobRegistry.SENTINEL     |                                        ['SENTINEL']                                        |
+| JobRegistry.componentRegistry |                                   ['componentRegistry']                                    |
+|       JobRegistry.owner       |                                             []                                             |
+|  JobRegistry.numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    JobRegistry.mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  JobRegistry.mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| JobRegistry.mapAcceptedJobIds |                                             []                                             |
++-------------------------------+--------------------------------------------------------------------------------------------+
+Function accept(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |       ['componentIds', 'mapAcceptedJobIds']       |
++-------------------------------+---------------------------------------------------+
+Function remove(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |               ['mapAcceptedJobIds']               |
++-------------------------------+---------------------------------------------------+
+Function getPairs(bool)
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            Variable           |                                             Dependencies                                             |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            accepted           |                                                  []                                                  |
+|              jobs             |     ['jobAddressComponentId', 'jobs', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs']     |
+|          componentIds         | ['componentIds', 'jobAddressComponentId', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs'] |
+|            numPairs           |                                         ['numProposedPairs']                                         |
+|             pairs             |               ['currentPair', 'mapProposals', 'numPairs', 'numProposedPairs', 'pairs']               |
+|         numActualPairs        |                                          ['numActualPairs']                                          |
+|          currentPair          |                             ['SENTINEL', 'currentPair', 'mapProposals']                              |
+|               i               |                                                ['i']                                                 |
+|           i_scope_0           |                                            ['i_scope_0']                                             |
+|     jobAddressComponentId     |                              ['numPairs', 'numProposedPairs', 'pairs']                               |
+|      JobRegistry.SENTINEL     |                                             ['SENTINEL']                                             |
+| JobRegistry.componentRegistry |                                                  []                                                  |
+|       JobRegistry.owner       |                                                  []                                                  |
+|  JobRegistry.numProposedPairs |                                         ['numProposedPairs']                                         |
+|    JobRegistry.mapProposals   |                                           ['mapProposals']                                           |
+|  JobRegistry.mapPairAccounts  |                                         ['mapPairAccounts']                                          |
+| JobRegistry.mapAcceptedJobIds |                                        ['mapAcceptedJobIds']                                         |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+Function getComponentIdHash(address)
++-------------------------------+-------------------------------------------------------------------+
+|            Variable           |                            Dependencies                           |
++-------------------------------+-------------------------------------------------------------------+
+|              job              |                                 []                                |
+|          componentId          |                       ['mapAcceptedJobIds']                       |
+|         componentHash         | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|              unit             | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|      JobRegistry.SENTINEL     |                                 []                                |
+| JobRegistry.componentRegistry |                       ['componentRegistry']                       |
+|       JobRegistry.owner       |                                 []                                |
+|  JobRegistry.numProposedPairs |                                 []                                |
+|    JobRegistry.mapProposals   |                                 []                                |
+|  JobRegistry.mapPairAccounts  |                                 []                                |
+| JobRegistry.mapAcceptedJobIds |                       ['mapAcceptedJobIds']                       |
++-------------------------------+-------------------------------------------------------------------+
+Function isAcceptedJob(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|              job              |           []          |
+|            accepted           | ['mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       |           []          |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds | ['mapAcceptedJobIds'] |
++-------------------------------+-----------------------+
+Function isAcceptedJobComponentId(address,uint256)
++-------------------------------+--------------------------------------+
+|            Variable           |             Dependencies             |
++-------------------------------+--------------------------------------+
+|              job              |                  []                  |
+|          componentId          |                  []                  |
+|            accepted           | ['componentId', 'mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |                  []                  |
+| JobRegistry.componentRegistry |                  []                  |
+|       JobRegistry.owner       |                  []                  |
+|  JobRegistry.numProposedPairs |                  []                  |
+|    JobRegistry.mapProposals   |                  []                  |
+|  JobRegistry.mapPairAccounts  |                  []                  |
+| JobRegistry.mapAcceptedJobIds |        ['mapAcceptedJobIds']         |
++-------------------------------+--------------------------------------+
+Function slitherConstructorConstantVariables()
++-------------------------------+--------------+
+|            Variable           | Dependencies |
++-------------------------------+--------------+
+|      JobRegistry.SENTINEL     |      []      |
+| JobRegistry.componentRegistry |      []      |
+|       JobRegistry.owner       |      []      |
+|  JobRegistry.numProposedPairs |      []      |
+|    JobRegistry.mapProposals   |      []      |
+|  JobRegistry.mapPairAccounts  |      []      |
+| JobRegistry.mapAcceptedJobIds |      []      |
++-------------------------------+--------------+
+
+Contract JobRegistry
++-------------------+--------------------------------------------------------------------------------------------+
+|      Variable     |                                        Dependencies                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+|      SENTINEL     |                                        ['SENTINEL']                                        |
+| componentRegistry |                        ['_componentRegistry', 'componentRegistry']                         |
+|       owner       |                            ['msg.sender', 'newOwner', 'owner']                             |
+|  numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| mapAcceptedJobIds |                           ['componentIds', 'mapAcceptedJobIds']                            |
++-------------------+--------------------------------------------------------------------------------------------+
+
+Function constructor(address)
++-------------------------------+------------------------+
+|            Variable           |      Dependencies      |
++-------------------------------+------------------------+
+|       _componentRegistry      |           []           |
+|      JobRegistry.SENTINEL     |           []           |
+| JobRegistry.componentRegistry | ['_componentRegistry'] |
+|       JobRegistry.owner       |     ['msg.sender']     |
+|  JobRegistry.numProposedPairs |           []           |
+|    JobRegistry.mapProposals   |           []           |
+|  JobRegistry.mapPairAccounts  |           []           |
+| JobRegistry.mapAcceptedJobIds |           []           |
++-------------------------------+------------------------+
+Function changeOwner(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|            newOwner           |           []          |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       | ['newOwner', 'owner'] |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds |           []          |
++-------------------------------+-----------------------+
+Function propose(address[],uint256[])
++-------------------------------+--------------------------------------------------------------------------------------------+
+|            Variable           |                                        Dependencies                                        |
++-------------------------------+--------------------------------------------------------------------------------------------+
+|              jobs             |                                          ['jobs']                                          |
+|          componentIds         |                                      ['componentIds']                                      |
+|               i               |                                           ['i']                                            |
+|            numPairs           |                              ['numPairs', 'numProposedPairs']                              |
+|          initNumPairs         |                              ['numPairs', 'numProposedPairs']                              |
+|          currentPair          |        ['SENTINEL', 'componentIds', 'currentPair', 'jobAddressComponentId', 'jobs']        |
+|           firstPair           |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|           i_scope_0           |                                       ['i_scope_0']                                        |
+|     jobAddressComponentId     |                     ['componentIds', 'jobAddressComponentId', 'jobs']                      |
+|       pairAlreadyExists       |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|      JobRegistry.SENTINEL     |                                        ['SENTINEL']                                        |
+| JobRegistry.componentRegistry |                                   ['componentRegistry']                                    |
+|       JobRegistry.owner       |                                             []                                             |
+|  JobRegistry.numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    JobRegistry.mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  JobRegistry.mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| JobRegistry.mapAcceptedJobIds |                                             []                                             |
++-------------------------------+--------------------------------------------------------------------------------------------+
+Function accept(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |       ['componentIds', 'mapAcceptedJobIds']       |
++-------------------------------+---------------------------------------------------+
+Function remove(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |               ['mapAcceptedJobIds']               |
++-------------------------------+---------------------------------------------------+
+Function getPairs(bool)
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            Variable           |                                             Dependencies                                             |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            accepted           |                                                  []                                                  |
+|              jobs             |     ['jobAddressComponentId', 'jobs', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs']     |
+|          componentIds         | ['componentIds', 'jobAddressComponentId', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs'] |
+|            numPairs           |                                         ['numProposedPairs']                                         |
+|             pairs             |               ['currentPair', 'mapProposals', 'numPairs', 'numProposedPairs', 'pairs']               |
+|         numActualPairs        |                                          ['numActualPairs']                                          |
+|          currentPair          |                             ['SENTINEL', 'currentPair', 'mapProposals']                              |
+|               i               |                                                ['i']                                                 |
+|           i_scope_0           |                                            ['i_scope_0']                                             |
+|     jobAddressComponentId     |                              ['numPairs', 'numProposedPairs', 'pairs']                               |
+|      JobRegistry.SENTINEL     |                                             ['SENTINEL']                                             |
+| JobRegistry.componentRegistry |                                                  []                                                  |
+|       JobRegistry.owner       |                                                  []                                                  |
+|  JobRegistry.numProposedPairs |                                         ['numProposedPairs']                                         |
+|    JobRegistry.mapProposals   |                                           ['mapProposals']                                           |
+|  JobRegistry.mapPairAccounts  |                                         ['mapPairAccounts']                                          |
+| JobRegistry.mapAcceptedJobIds |                                        ['mapAcceptedJobIds']                                         |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+Function getComponentIdHash(address)
++-------------------------------+-------------------------------------------------------------------+
+|            Variable           |                            Dependencies                           |
++-------------------------------+-------------------------------------------------------------------+
+|              job              |                                 []                                |
+|          componentId          |                       ['mapAcceptedJobIds']                       |
+|         componentHash         | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|              unit             | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|      JobRegistry.SENTINEL     |                                 []                                |
+| JobRegistry.componentRegistry |                       ['componentRegistry']                       |
+|       JobRegistry.owner       |                                 []                                |
+|  JobRegistry.numProposedPairs |                                 []                                |
+|    JobRegistry.mapProposals   |                                 []                                |
+|  JobRegistry.mapPairAccounts  |                                 []                                |
+| JobRegistry.mapAcceptedJobIds |                       ['mapAcceptedJobIds']                       |
++-------------------------------+-------------------------------------------------------------------+
+Function isAcceptedJob(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|              job              |           []          |
+|            accepted           | ['mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       |           []          |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds | ['mapAcceptedJobIds'] |
++-------------------------------+-----------------------+
+Function isAcceptedJobComponentId(address,uint256)
++-------------------------------+--------------------------------------+
+|            Variable           |             Dependencies             |
++-------------------------------+--------------------------------------+
+|              job              |                  []                  |
+|          componentId          |                  []                  |
+|            accepted           | ['componentId', 'mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |                  []                  |
+| JobRegistry.componentRegistry |                  []                  |
+|       JobRegistry.owner       |                  []                  |
+|  JobRegistry.numProposedPairs |                  []                  |
+|    JobRegistry.mapProposals   |                  []                  |
+|  JobRegistry.mapPairAccounts  |                  []                  |
+| JobRegistry.mapAcceptedJobIds |        ['mapAcceptedJobIds']         |
++-------------------------------+--------------------------------------+
+Function slitherConstructorConstantVariables()
++-------------------------------+--------------+
+|            Variable           | Dependencies |
++-------------------------------+--------------+
+|      JobRegistry.SENTINEL     |      []      |
+| JobRegistry.componentRegistry |      []      |
+|       JobRegistry.owner       |      []      |
+|  JobRegistry.numProposedPairs |      []      |
+|    JobRegistry.mapProposals   |      []      |
+|  JobRegistry.mapPairAccounts  |      []      |
+| JobRegistry.mapAcceptedJobIds |      []      |
++-------------------------------+--------------+
+Contract IErrors
++----------+--------------+
+| Variable | Dependencies |
++----------+--------------+
++----------+--------------+
+
+
+Contract JobRegistry
++-------------------+--------------------------------------------------------------------------------------------+
+|      Variable     |                                        Dependencies                                        |
++-------------------+--------------------------------------------------------------------------------------------+
+|      SENTINEL     |                                        ['SENTINEL']                                        |
+| componentRegistry |                        ['_componentRegistry', 'componentRegistry']                         |
+|       owner       |                            ['msg.sender', 'newOwner', 'owner']                             |
+|  numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| mapAcceptedJobIds |                           ['componentIds', 'mapAcceptedJobIds']                            |
++-------------------+--------------------------------------------------------------------------------------------+
+
+Function constructor(address)
++-------------------------------+------------------------+
+|            Variable           |      Dependencies      |
++-------------------------------+------------------------+
+|       _componentRegistry      |           []           |
+|      JobRegistry.SENTINEL     |           []           |
+| JobRegistry.componentRegistry | ['_componentRegistry'] |
+|       JobRegistry.owner       |     ['msg.sender']     |
+|  JobRegistry.numProposedPairs |           []           |
+|    JobRegistry.mapProposals   |           []           |
+|  JobRegistry.mapPairAccounts  |           []           |
+| JobRegistry.mapAcceptedJobIds |           []           |
++-------------------------------+------------------------+
+Function changeOwner(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|            newOwner           |           []          |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       | ['newOwner', 'owner'] |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds |           []          |
++-------------------------------+-----------------------+
+Function propose(address[],uint256[])
++-------------------------------+--------------------------------------------------------------------------------------------+
+|            Variable           |                                        Dependencies                                        |
++-------------------------------+--------------------------------------------------------------------------------------------+
+|              jobs             |                                          ['jobs']                                          |
+|          componentIds         |                                      ['componentIds']                                      |
+|               i               |                                           ['i']                                            |
+|            numPairs           |                              ['numPairs', 'numProposedPairs']                              |
+|          initNumPairs         |                              ['numPairs', 'numProposedPairs']                              |
+|          currentPair          |        ['SENTINEL', 'componentIds', 'currentPair', 'jobAddressComponentId', 'jobs']        |
+|           firstPair           |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|           i_scope_0           |                                       ['i_scope_0']                                        |
+|     jobAddressComponentId     |                     ['componentIds', 'jobAddressComponentId', 'jobs']                      |
+|       pairAlreadyExists       |                         ['SENTINEL', 'firstPair', 'mapProposals']                          |
+|      JobRegistry.SENTINEL     |                                        ['SENTINEL']                                        |
+| JobRegistry.componentRegistry |                                   ['componentRegistry']                                    |
+|       JobRegistry.owner       |                                             []                                             |
+|  JobRegistry.numProposedPairs |                              ['numPairs', 'numProposedPairs']                              |
+|    JobRegistry.mapProposals   | ['SENTINEL', 'componentIds', 'firstPair', 'jobAddressComponentId', 'jobs', 'mapProposals'] |
+|  JobRegistry.mapPairAccounts  |                             ['mapPairAccounts', 'msg.sender']                              |
+| JobRegistry.mapAcceptedJobIds |                                             []                                             |
++-------------------------------+--------------------------------------------------------------------------------------------+
+Function accept(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |       ['componentIds', 'mapAcceptedJobIds']       |
++-------------------------------+---------------------------------------------------+
+Function remove(address[],uint256[])
++-------------------------------+---------------------------------------------------+
+|            Variable           |                    Dependencies                   |
++-------------------------------+---------------------------------------------------+
+|              jobs             |                      ['jobs']                     |
+|          componentIds         |                  ['componentIds']                 |
+|               i               |                       ['i']                       |
+|     jobAddressComponentId     | ['componentIds', 'jobAddressComponentId', 'jobs'] |
+|      JobRegistry.SENTINEL     |                         []                        |
+| JobRegistry.componentRegistry |                         []                        |
+|       JobRegistry.owner       |                     ['owner']                     |
+|  JobRegistry.numProposedPairs |                         []                        |
+|    JobRegistry.mapProposals   |                         []                        |
+|  JobRegistry.mapPairAccounts  |                ['mapPairAccounts']                |
+| JobRegistry.mapAcceptedJobIds |               ['mapAcceptedJobIds']               |
++-------------------------------+---------------------------------------------------+
+Function getPairs(bool)
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            Variable           |                                             Dependencies                                             |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+|            accepted           |                                                  []                                                  |
+|              jobs             |     ['jobAddressComponentId', 'jobs', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs']     |
+|          componentIds         | ['componentIds', 'jobAddressComponentId', 'numActualPairs', 'numPairs', 'numProposedPairs', 'pairs'] |
+|            numPairs           |                                         ['numProposedPairs']                                         |
+|             pairs             |               ['currentPair', 'mapProposals', 'numPairs', 'numProposedPairs', 'pairs']               |
+|         numActualPairs        |                                          ['numActualPairs']                                          |
+|          currentPair          |                             ['SENTINEL', 'currentPair', 'mapProposals']                              |
+|               i               |                                                ['i']                                                 |
+|           i_scope_0           |                                            ['i_scope_0']                                             |
+|     jobAddressComponentId     |                              ['numPairs', 'numProposedPairs', 'pairs']                               |
+|      JobRegistry.SENTINEL     |                                             ['SENTINEL']                                             |
+| JobRegistry.componentRegistry |                                                  []                                                  |
+|       JobRegistry.owner       |                                                  []                                                  |
+|  JobRegistry.numProposedPairs |                                         ['numProposedPairs']                                         |
+|    JobRegistry.mapProposals   |                                           ['mapProposals']                                           |
+|  JobRegistry.mapPairAccounts  |                                         ['mapPairAccounts']                                          |
+| JobRegistry.mapAcceptedJobIds |                                        ['mapAcceptedJobIds']                                         |
++-------------------------------+------------------------------------------------------------------------------------------------------+
+Function getComponentIdHash(address)
++-------------------------------+-------------------------------------------------------------------+
+|            Variable           |                            Dependencies                           |
++-------------------------------+-------------------------------------------------------------------+
+|              job              |                                 []                                |
+|          componentId          |                       ['mapAcceptedJobIds']                       |
+|         componentHash         | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|              unit             | ['componentId', 'componentRegistry', 'mapAcceptedJobIds', 'unit'] |
+|      JobRegistry.SENTINEL     |                                 []                                |
+| JobRegistry.componentRegistry |                       ['componentRegistry']                       |
+|       JobRegistry.owner       |                                 []                                |
+|  JobRegistry.numProposedPairs |                                 []                                |
+|    JobRegistry.mapProposals   |                                 []                                |
+|  JobRegistry.mapPairAccounts  |                                 []                                |
+| JobRegistry.mapAcceptedJobIds |                       ['mapAcceptedJobIds']                       |
++-------------------------------+-------------------------------------------------------------------+
+Function isAcceptedJob(address)
++-------------------------------+-----------------------+
+|            Variable           |      Dependencies     |
++-------------------------------+-----------------------+
+|              job              |           []          |
+|            accepted           | ['mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |           []          |
+| JobRegistry.componentRegistry |           []          |
+|       JobRegistry.owner       |           []          |
+|  JobRegistry.numProposedPairs |           []          |
+|    JobRegistry.mapProposals   |           []          |
+|  JobRegistry.mapPairAccounts  |           []          |
+| JobRegistry.mapAcceptedJobIds | ['mapAcceptedJobIds'] |
++-------------------------------+-----------------------+
+Function isAcceptedJobComponentId(address,uint256)
++-------------------------------+--------------------------------------+
+|            Variable           |             Dependencies             |
++-------------------------------+--------------------------------------+
+|              job              |                  []                  |
+|          componentId          |                  []                  |
+|            accepted           | ['componentId', 'mapAcceptedJobIds'] |
+|      JobRegistry.SENTINEL     |                  []                  |
+| JobRegistry.componentRegistry |                  []                  |
+|       JobRegistry.owner       |                  []                  |
+|  JobRegistry.numProposedPairs |                  []                  |
+|    JobRegistry.mapProposals   |                  []                  |
+|  JobRegistry.mapPairAccounts  |                  []                  |
+| JobRegistry.mapAcceptedJobIds |        ['mapAcceptedJobIds']         |
++-------------------------------+--------------------------------------+
+Function slitherConstructorConstantVariables()
++-------------------------------+--------------+
+|            Variable           | Dependencies |
++-------------------------------+--------------+
+|      JobRegistry.SENTINEL     |      []      |
+| JobRegistry.componentRegistry |      []      |
+|       JobRegistry.owner       |      []      |
+|  JobRegistry.numProposedPairs |      []      |
+|    JobRegistry.mapProposals   |      []      |
+|  JobRegistry.mapPairAccounts  |      []      |
+| JobRegistry.mapAcceptedJobIds |      []      |
++-------------------------------+--------------+
+Contract IErrors
++----------+--------------+
+| Variable | Dependencies |
++----------+--------------+
++----------+--------------+
+
+Contract IRegistry
++----------+--------------+
+| Variable | Dependencies |
++----------+--------------+
++----------+--------------+
+
+Function exists(uint256)
++----------+--------------+
+| Variable | Dependencies |
++----------+--------------+
+|  unitId  |      []      |
+|          |      []      |
++----------+--------------+
+Function getUnit(uint256)
++----------+--------------+
+| Variable | Dependencies |
++----------+--------------+
+|  unitId  |      []      |
+|   unit   |      []      |
++----------+--------------+
+. analyzed (3 contracts)
