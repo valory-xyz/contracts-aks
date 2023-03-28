@@ -14,8 +14,15 @@ Flatten version of contracts. [contracts](https://github.com/valory-xyz/contract
 All automatic warnings are listed in the following file, concerns of which we address in more detail below: <br>
 [slither-full](https://github.com/valory-xyz/contracts-aks/blob/main/audits/internal/analysis/slither_full.txt) <br>
 
-No event in key functions: propose, accept, remove
+#### No event in key functions: propose, accept, remove
 
+#### no need to check and just delete
+```
+            if (mapAcceptedJobIds[jobs[i]] != 0) {
+                mapAcceptedJobIds[jobs[i]] = 0;
+            }
+```
+#### refactoring in future versions. optional 
 Pay attention (maybe for the next version):
 ```
             bool pairAlreadyExists = (mapProposals[jobAddressComponentId] != 0);
