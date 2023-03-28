@@ -9,7 +9,7 @@ import "./interfaces/IRegistry.sol";
 contract JobRegistry is IErrors {
     event OwnerUpdated(address indexed owner);
     event Proposed(address indexed account, address[] indexed jobs, uint256[] componentIds);
-    event Accepted(address[] indexed jobs, uint256[] componentIds);
+    event Accepted(address indexed owner, address[] indexed jobs, uint256[] componentIds);
     event Removed(address indexed account, address[] indexed jobs, uint256[] componentIds);
 
     // Sentinel value
@@ -176,7 +176,7 @@ contract JobRegistry is IErrors {
             mapAcceptedJobIds[jobs[i]] = componentIds[i];
         }
 
-        emit Accepted(jobs, componentIds);
+        emit Accepted(owner, jobs, componentIds);
     }
 
     /// @dev Remove [job contract address | component Id] pairs.
