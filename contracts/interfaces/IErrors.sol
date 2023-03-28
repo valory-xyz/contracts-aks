@@ -11,6 +11,14 @@ interface IErrors {
     /// @dev Provided zero address.
     error ZeroAddress();
 
+    /// @dev Zero value when it has to be different from zero.
+    error ZeroValue();
+
+    /// @dev Value overflow.
+    /// @param provided Overflow value.
+    /// @param max Maximum possible value.
+    error Overflow(uint256 provided, uint256 max);
+
     /// @dev Wrong length of two arrays.
     /// @param numValues1 Number of values in a first array.
     /// @param numValues2 Number of values in a second array.
@@ -20,11 +28,13 @@ interface IErrors {
     /// @param componentId ComponentId Id.
     error ComponentDoesNotExist(uint256 componentId);
 
-    /// @dev Zero value when it has to be different from zero.
-    error ZeroValue();
-
     /// @dev Job contract address | component Id is already proposed.
     /// @param job Job contract address.
     /// @param componentId Component Id.
     error AlreadyProposed(address job, uint256 componentId);
+
+    /// @dev Job contract address | component Id is not proposed.
+    /// @param job Job contract address.
+    /// @param componentId Component Id.
+    error NotProposed(address job, uint256 componentId);
 }
