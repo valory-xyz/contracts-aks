@@ -19,9 +19,9 @@ contract JobRegistry is IErrors {
     uint256 public numProposedPairs;
 
     // Cyclical map of all the job pairs
-    mapping (uint256 => uint256) public mapProposedPairs;
-    // Map of job address | componentId pair => proposer address
-    mapping (uint256 => address) public mapPairProposers;
+    mapping (uint256 => uint256) public mapProposals;
+    // Map of job address | componentId pair => proposer account address
+    mapping (uint256 => address) public mapPairAccounts;
     // Map of accepted job address => component Id
     mapping (address => uint256) public mapAcceptedJobIds;
 
@@ -95,7 +95,7 @@ contract JobRegistry is IErrors {
         // Record the first value if the map is not empty such that it is adjusted at the end
         uint256 firstPair;
         if (numPairs > 0) {
-            firstPair = mapProposedPairs[SENTINEL];
+            firstPair = mapProposals[SENTINEL];
         }
         // Fill in the cyclic map of proposed pairs
         for (uint256 i = 0; i < jobs.length; ++i) {
@@ -104,9 +104,9 @@ contract JobRegistry is IErrors {
             // componentId occupies next 32 bits assuming it is not greater than 2^32 - 1 in value
             jobAddressComponentId |= componentIds[i] << 160;
 
-            bool pairAlreadyExists = (mapProposedPairs[jobAddressComponentId] != 0);
+            bool pairAlreadyExists = (mapProposals[jobAddressComponentId] != 0);
             // Check if the job / component Id pair was already proposed
-            if ((pairAlreadyExists && mapPairProposers[jobAddressComponentId] != address(0)) ||
+            if ((pairAlreadyExists && mapPairAccounts[jobAddressComponentId] != address(0)) ||
                 currentPair == jobAddressComponentId) {
                 revert AlreadyProposed(jobs[i], componentIds[i]);
             }
@@ -114,21 +114,21 @@ contract JobRegistry is IErrors {
             // If the pair was already proposed before (then removed and proposed again), do not add it in the map
             if (!pairAlreadyExists) {
                 // Link a current pair with the next one
-                mapProposedPairs[currentPair] = jobAddressComponentId;
+                mapProposals[currentPair] = jobAddressComponentId;
                 currentPair = jobAddressComponentId;
                 // Increase the number of proposed pairs
                 numPairs++;
             }
             // Record the pair proposer address
-            mapPairProposers[jobAddressComponentId] = msg.sender;
+            mapPairAccounts[jobAddressComponentId] = msg.sender;
         }
         if (initNumPairs == 0) {
             // Last pair points to the sentinel value if adding to the map the first time
-            mapProposedPairs[currentPair] = SENTINEL;
+            mapProposals[currentPair] = SENTINEL;
         } else if (currentPair != SENTINEL) {
             // If currentPair is still equal to SENTINEL, then no new jobs were added
             // Last pair points to the first value before adding new proposals if the map was not empty
-            mapProposedPairs[currentPair] = firstPair;
+            mapProposals[currentPair] = firstPair;
         }
         numProposedPairs = numPairs;
     }
@@ -163,7 +163,7 @@ contract JobRegistry is IErrors {
             jobAddressComponentId |= componentIds[i] << 160;
 
             // Check for the existence of the pair
-            if (mapPairProposers[jobAddressComponentId] == address(0)) {
+            if (mapPairAccounts[jobAddressComponentId] == address(0)) {
                 revert NotProposed(jobs[i], componentIds[i]);
             }
 
@@ -194,12 +194,12 @@ contract JobRegistry is IErrors {
             jobAddressComponentId |= componentIds[i] << 160;
 
             // Check for the pair ownership
-            if (msg.sender != owner && msg.sender != mapPairProposers[jobAddressComponentId]) {
-                revert OwnerOnly(msg.sender, mapPairProposers[jobAddressComponentId]);
+            if (msg.sender != owner && msg.sender != mapPairAccounts[jobAddressComponentId]) {
+                revert OwnerOnly(msg.sender, mapPairAccounts[jobAddressComponentId]);
             }
 
-            // Remove pairs both from mapPairProposers and mapAcceptedJobIds
-            mapPairProposers[jobAddressComponentId] = address(0);
+            // Remove pairs both from mapPairAccounts and mapAcceptedJobIds
+            mapPairAccounts[jobAddressComponentId] = address(0);
             if (mapAcceptedJobIds[jobs[i]] != 0) {
                 mapAcceptedJobIds[jobs[i]] = 0;
             }
@@ -223,12 +223,12 @@ contract JobRegistry is IErrors {
         // Traverse through all the proposed pairs
         uint256 currentPair = SENTINEL;
         for (uint256 i = 0; i < numPairs; ++i) {
-            currentPair = mapProposedPairs[currentPair];
+            currentPair = mapProposals[currentPair];
             // Discard removed pairs
             // If accepted, check for the component Id to match with the map value,
             if ((accepted && mapAcceptedJobIds[address(uint160(currentPair))] == currentPair >> 160) ||
                 // otherwise discard removed pairs
-                (!accepted && mapPairProposers[currentPair] != address(0))) {
+                (!accepted && mapPairAccounts[currentPair] != address(0))) {
                 pairs[numActualPairs] = currentPair;
                 numActualPairs++;
             }
