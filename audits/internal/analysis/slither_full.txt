@@ -6,9 +6,3 @@ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uniniti
 JobRegistry.propose(address[],uint256[]) (JobRegistry.sol#62-134) has external calls inside a loop: ! IRegistry(componentRegistry).exists(componentIds[i]) (JobRegistry.sol#87)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
 
-Pragma version^0.8.19 (JobRegistry.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.6.12/0.7.6/0.8.16
-Pragma version^0.8.19 (interfaces/IErrors.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.6.12/0.7.6/0.8.16
-Pragma version^0.8.19 (interfaces/IRegistry.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.6.12/0.7.6/0.8.16
-solc-0.8.19 is not recommended for deployment
-Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
-. analyzed (3 contracts with 84 detectors), 7 result(s) found
