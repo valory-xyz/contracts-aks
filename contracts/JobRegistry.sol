@@ -16,14 +16,14 @@ contract JobRegistry is IErrors {
     // Owner address
     address public owner;
     // Number of proposed job contract address | component Id pairs
-    uint256 numProposedPairs;
+    uint256 public numProposedPairs;
 
     // Cyclical map of all the job pairs
     mapping (uint256 => uint256) public mapProposedPairs;
     // Map of job address | componentId pair => proposer address
     mapping (uint256 => address) public mapPairProposers;
     // Map of accepted job address => component Id
-    mapping (address => uint32) public mapAcceptedJobIds;
+    mapping (address => uint256) public mapAcceptedJobIds;
 
     /// @dev JobRegistry constructor.
     /// @param _componentRegistry Component registry address.
@@ -64,6 +64,9 @@ contract JobRegistry is IErrors {
         if (jobs.length != componentIds.length) {
             revert WrongArrayLength(jobs.length, componentIds.length);
         }
+        if (jobs.length == 0) {
+            revert ZeroValue();
+        }
 
         // Verification loop
         for (uint256 i = 0; i < jobs.length; ++i) {
@@ -87,12 +90,12 @@ contract JobRegistry is IErrors {
         }
 
         uint256 numPairs = numProposedPairs;
-        uint256 currentPair;
-        // Choose between an empty map and a map with already proposed pairs
+        uint256 initNumPairs = numPairs;
+        uint256 currentPair = SENTINEL;
+        // Record the first value if the map is not empty such that it is adjusted at the end
+        uint256 firstPair;
         if (numPairs > 0) {
-            currentPair = mapProposedPairs[SENTINEL];
-        } else {
-            currentPair = SENTINEL;
+            firstPair = mapProposedPairs[SENTINEL];
         }
         // Fill in the cyclic map of proposed pairs
         for (uint256 i = 0; i < jobs.length; ++i) {
@@ -101,21 +104,32 @@ contract JobRegistry is IErrors {
             // componentId occupies next 32 bits assuming it is not greater than 2^32 - 1 in value
             jobAddressComponentId |= componentIds[i] << 160;
 
+            bool pairAlreadyExists = (mapProposedPairs[jobAddressComponentId] != 0);
             // Check if the job / component Id pair was already proposed
-            if (mapProposedPairs[jobAddressComponentId] != 0) {
+            if ((pairAlreadyExists && mapPairProposers[jobAddressComponentId] != address(0)) ||
+                currentPair == jobAddressComponentId) {
                 revert AlreadyProposed(jobs[i], componentIds[i]);
             }
 
-            // Link a current pair with the next one
-            mapProposedPairs[currentPair] = jobAddressComponentId;
+            // If the pair was already proposed before (then removed and proposed again), do not add it in the map
+            if (!pairAlreadyExists) {
+                // Link a current pair with the next one
+                mapProposedPairs[currentPair] = jobAddressComponentId;
+                currentPair = jobAddressComponentId;
+                // Increase the number of proposed pairs
+                numPairs++;
+            }
             // Record the pair proposer address
             mapPairProposers[jobAddressComponentId] = msg.sender;
-            currentPair = jobAddressComponentId;
         }
-        // Last pair always points to the sentinel value
-        mapProposedPairs[currentPair] = SENTINEL;
-        // Increase the number of proposed pairs
-        numPairs += jobs.length;
+        if (initNumPairs == 0) {
+            // Last pair points to the sentinel value if adding to the map the first time
+            mapProposedPairs[currentPair] = SENTINEL;
+        } else if (currentPair != SENTINEL) {
+            // If currentPair is still equal to SENTINEL, then no new jobs were added
+            // Last pair points to the first value before adding new proposals if the map was not empty
+            mapProposedPairs[currentPair] = firstPair;
+        }
         numProposedPairs = numPairs;
     }
 
@@ -132,6 +146,9 @@ contract JobRegistry is IErrors {
         // Check input array lengths
         if (jobs.length != componentIds.length) {
             revert WrongArrayLength(jobs.length, componentIds.length);
+        }
+        if (jobs.length == 0) {
+            revert ZeroValue();
         }
 
         for (uint256 i = 0; i < jobs.length; ++i) {
@@ -151,7 +168,7 @@ contract JobRegistry is IErrors {
             }
 
             // Accept the pair
-            mapAcceptedJobIds[jobs[i]] = uint32(componentIds[i]);
+            mapAcceptedJobIds[jobs[i]] = componentIds[i];
         }
     }
 
@@ -164,6 +181,9 @@ contract JobRegistry is IErrors {
         if (jobs.length != componentIds.length) {
             revert WrongArrayLength(jobs.length, componentIds.length);
         }
+        if (jobs.length == 0) {
+            revert ZeroValue();
+        }
 
         for (uint256 i = 0; i < jobs.length; ++i) {
             // No need to check for the componentIds overflow since the msg.sender can remove only their proposed pairs
@@ -174,20 +194,23 @@ contract JobRegistry is IErrors {
             jobAddressComponentId |= componentIds[i] << 160;
 
             // Check for the pair ownership
-            if (msg.sender != owner || mapPairProposers[jobAddressComponentId] != msg.sender) {
+            if (msg.sender != owner && msg.sender != mapPairProposers[jobAddressComponentId]) {
                 revert OwnerOnly(msg.sender, mapPairProposers[jobAddressComponentId]);
             }
 
             // Remove pairs both from mapPairProposers and mapAcceptedJobIds
             mapPairProposers[jobAddressComponentId] = address(0);
-            mapAcceptedJobIds[jobs[i]] = 0;
+            if (mapAcceptedJobIds[jobs[i]] != 0) {
+                mapAcceptedJobIds[jobs[i]] = 0;
+            }
         }
     }
 
-    /// @dev Gets a set of proposed pairs.
-    /// @return jobs Set of proposed job contract addresses.
+    /// @dev Gets a set of accepted or proposed pairs.
+    /// @param accepted Flag to return accepted pairs only.
+    /// @return jobs Set of job contract addresses.
     /// @return componentIds Set of corresponding component Ids.
-    function getProposedPairs() external view returns (address[] memory jobs, uint256[] memory componentIds) {
+    function getPairs(bool accepted) external view returns (address[] memory jobs, uint256[] memory componentIds) {
         // Get the total number of proposed pairs
         uint256 numPairs = numProposedPairs;
         if (numPairs == 0) {
@@ -198,51 +221,20 @@ contract JobRegistry is IErrors {
         uint256 numActualPairs;
 
         // Traverse through all the proposed pairs
-        uint256 currentPair = mapProposedPairs[SENTINEL];
-        while (currentPair != SENTINEL) {
+        uint256 currentPair = SENTINEL;
+        for (uint256 i = 0; i < numPairs; ++i) {
+            currentPair = mapProposedPairs[currentPair];
             // Discard removed pairs
-            if (mapPairProposers[currentPair] != address(0)) {
+            // If accepted, check for the component Id to match with the map value,
+            if ((accepted && mapAcceptedJobIds[address(uint160(currentPair))] == currentPair >> 160) ||
+                // otherwise discard removed pairs
+                (!accepted && mapPairProposers[currentPair] != address(0))) {
                 pairs[numActualPairs] = currentPair;
-                currentPair = mapProposedPairs[currentPair];
                 numActualPairs++;
             }
         }
-
-        // Unpakc and return the actual number of job contract addresses and component Ids
-        jobs = new address[](numActualPairs);
-        componentIds = new uint256[](numActualPairs);
-        // Copy actual arrays
-        for (uint256 i = 0; i < numActualPairs; ++i) {
-            uint256 jobAddressComponentId = pairs[i];
-            // job address occupies first 160 bits
-            jobs[i] = address(uint160(jobAddressComponentId));
-            // componentId occupies next 32 bits assuming it is not greater than 2^32 - 1 in value
-            componentIds[i] = jobAddressComponentId >> 160;
-        }
-    }
-
-    /// @dev Gets a set of accepted pairs.
-    /// @return jobs Set of accepted job contract addresses.
-    /// @return componentIds Set of corresponding component Ids.
-    function getAcceptedPairs() external view returns (address[] memory jobs, uint256[] memory componentIds) {
-        // Get the total number of proposed pairs
-        uint256 numPairs = numProposedPairs;
-        if (numPairs == 0) {
+        if (numActualPairs == 0) {
             return (jobs, componentIds);
-        }
-
-        uint256[] memory pairs = new uint256[](numPairs);
-        uint256 numActualPairs;
-
-        // Traverse through all the proposed pairs
-        uint256 currentPair = mapProposedPairs[SENTINEL];
-        while (currentPair != SENTINEL) {
-            // Collect accepted pairs or discard removed pairs
-            if (mapAcceptedJobIds[address(uint160(currentPair))] != 0) {
-                pairs[numActualPairs] = currentPair;
-                currentPair = mapProposedPairs[currentPair];
-                numActualPairs++;
-            }
         }
 
         // Unpack and return the actual number of job contract addresses and component Ids
@@ -277,9 +269,15 @@ contract JobRegistry is IErrors {
     /// @dev Checks if the job contract address is accepted.
     /// @param job Job contract address.
     /// @return accepted True if the job contract address is accepted.
-    function isAccepted(address job) external view returns (bool accepted) {
-        // Get the component Id
-        uint256 componentId = mapAcceptedJobIds[job];
-        accepted = componentId > 0;
+    function isAcceptedJob(address job) external view returns (bool accepted) {
+        accepted = (mapAcceptedJobIds[job] > 0);
+    }
+
+    /// @dev Checks if the job contract address corresponding to a specific componentId is accepted.
+    /// @param job Job contract address.
+    /// @param componentId Component Id.
+    /// @return accepted True if the job contract address is accepted.
+    function isAcceptedJobComponentId(address job, uint256 componentId) external view returns (bool accepted) {
+        accepted = (mapAcceptedJobIds[job] == componentId);
     }
 }
