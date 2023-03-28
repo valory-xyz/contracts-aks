@@ -8,6 +8,9 @@ import "./interfaces/IRegistry.sol";
 /// @author Aleksandr Kuperman - <aleksandr.kuperman@valory.xyz>
 contract JobRegistry is IErrors {
     event OwnerUpdated(address indexed owner);
+    event Proposed(address indexed account, address[] indexed jobs, uint256[] componentIds);
+    event Accepted(address[] indexed jobs, uint256[] componentIds);
+    event Removed(address indexed account, address[] indexed jobs, uint256[] componentIds);
 
     // Sentinel value
     uint256 public constant SENTINEL = 1;
@@ -131,6 +134,8 @@ contract JobRegistry is IErrors {
             mapProposals[currentPair] = firstPair;
         }
         numProposedPairs = numPairs;
+
+        emit Proposed(msg.sender, jobs, componentIds);
     }
 
     /// @dev Accept [job contract address | component Id] pairs.
@@ -170,6 +175,8 @@ contract JobRegistry is IErrors {
             // Accept the pair
             mapAcceptedJobIds[jobs[i]] = componentIds[i];
         }
+
+        emit Accepted(jobs, componentIds);
     }
 
     /// @dev Remove [job contract address | component Id] pairs.
@@ -200,10 +207,10 @@ contract JobRegistry is IErrors {
 
             // Remove pairs both from mapPairAccounts and mapAcceptedJobIds
             mapPairAccounts[jobAddressComponentId] = address(0);
-            if (mapAcceptedJobIds[jobs[i]] != 0) {
-                mapAcceptedJobIds[jobs[i]] = 0;
-            }
+            mapAcceptedJobIds[jobs[i]] = 0;
         }
+
+        emit Removed(msg.sender, jobs, componentIds);
     }
 
     /// @dev Gets a set of accepted or proposed pairs.
