@@ -15,6 +15,7 @@ All automatic warnings are listed in the following file, concerns of which we ad
 [slither-full](https://github.com/valory-xyz/contracts-aks/blob/main/audits/internal/analysis/slither_full.txt) <br>
 
 #### No event in key functions: propose, accept, remove
+[x] fixed
 
 #### no need to check and just delete
 ```
@@ -22,6 +23,8 @@ All automatic warnings are listed in the following file, concerns of which we ad
                 mapAcceptedJobIds[jobs[i]] = 0;
             }
 ```
+[x] fixed
+
 #### refactoring in future versions. optional 
 Pay attention (maybe for the next version):
 ```
@@ -54,3 +57,4 @@ pairAlreadyExists = mapProposals[jobAddressComponentId] != 0 => false
 That is, it will most likely work correctly.
 pairAlreadyExists - a little confusing. Given the urgency of development, let will be as is.
 ```
+[x] worth considering further
