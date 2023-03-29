@@ -13,7 +13,7 @@ yarn install
 ```
 command and compiled with the
 ```
-npm run compile
+npx hardhat compile
 ```
 command as described in the [main readme](https://github.com/valory-xyz/contracts-aks/blob/main/README.md).
 

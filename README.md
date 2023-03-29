@@ -31,7 +31,7 @@ test
 ### Compile the code and run
 Compile the code:
 ```
-npm run compile
+npx hardhat compile
 ```
 Run tests with Hardhat:
 ```
