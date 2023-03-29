@@ -8,11 +8,17 @@ import "./interfaces/IRegistry.sol";
 /// @author Aleksandr Kuperman - <aleksandr.kuperman@valory.xyz>
 /// @title JobRegistry - Smart contract that allows "Propose", "Accept", and " Remove" job-component pairs.
 /// "Propose" signals that a job-component pair is ready to be approved. Anyone can propose job-component pairs.  
-///Note that a job-component pair corresponding to exactly a job address and a component ID (e.g. (address 1, ID 1)) can be proposed only once and by a unique account. However, pairs with the same job address but different component IDs (e.g. (address 1, ID 1),  (address 1, ID 2)) or different job addresses but the same component ID (e.g. (address 1, ID 1),  (address 2, ID 1)) can be proposed. 
+/// Note that a job-component pair corresponding to the exact job address and component ID (e.g. (address 1, ID 1))
+/// can be proposed only once and by a unique account at a time, until that specific account removes their proposed pair.
+/// However, pairs with the same job address but different component IDs (e.g. (address 1, ID 1),  (address 1, ID 2))
+/// or different job contract addresses but the same component ID (e.g. (address 1, ID 1),  (address 2, ID 1)) can be proposed.
 /// "Accept" signals that a job-component pair has been accepted by the contract owner.  
-/// Note that the contract owner can choose only one pair with the same address and not all of them (e.g. can choose (address 1, ID 1) or (address 1, ID 2) not both of them).  
-/// "Remove" signals that an accepted (respectively, proposed) job-component pair has been removed by the contract owner (respectively, the original proposer) of such pair. 
- /// Note that if a job-component pair is in the removed state this can be reposted through a new proposed transaction.
+/// Note that the contract owner can choose only one pair with the same address and not all of them (e.g. can choose (address 1, ID 1)
+/// or (address 1, ID 2) not both of them).
+/// "Remove" signals that an accepted (respectively, proposed) job-component pair has been removed by the contract owner
+/// (respectively, the original proposer) of such a pair.
+/// Note that if a job-component pair is in the removed state this can be reposted through a new proposed transaction.
+
 /// @author Aleksandr Kuperman - <aleksandr.kuperman@valory.xyz>
 contract JobRegistry is IErrors {
     event OwnerUpdated(address indexed owner);
@@ -68,6 +74,8 @@ contract JobRegistry is IErrors {
     }
 
     /// @dev Propose [job contract address | component Id] pairs.
+    /// @notice A single job-component pair can be proposed only once by the same proposer.
+    /// @notice The job-component pair can be re-proposed once it is removed by the original proposer or the contract owner.
     /// @param jobs Set of job contract addresses.
     /// @param componentIds Set of component Ids.
     function propose(address[] memory jobs, uint256[] memory componentIds) external {
@@ -148,6 +156,8 @@ contract JobRegistry is IErrors {
 
     /// @dev Accept [job contract address | component Id] pairs.
     /// @notice This function must be called by the contract owner.
+    /// @notice If the job-component pair is not proposed by anyone, it cannot be accepted.
+    /// @notice Out of pairs with the same job contract address, only one component Id is associated with a single job address.
     /// @param jobs Set of job contract addresses.
     /// @param componentIds Set of component Ids.
     function accept(address[] memory jobs, uint256[] memory componentIds) external {
@@ -189,6 +199,7 @@ contract JobRegistry is IErrors {
 
     /// @dev Remove [job contract address | component Id] pairs.
     /// @notice This function must be called by the address that proposed pairs initially or the contract owner.
+    /// @notice Job-component pairs are removed from both proposer ownership maps and accepted job-component maps.
     /// @param jobs Set of job contract addresses.
     /// @param componentIds Set of component Ids.
     function remove(address[] memory jobs, uint256[] memory componentIds) external {
