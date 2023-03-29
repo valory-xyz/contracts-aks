@@ -1,1 +1,1 @@
-{"contractVerification":true,"useLedger":true,"derivationPath":"m/44'/60'/2'/0/0","providerName":"mainnet","componentRegistryAddress":"0x15bd56669F57192a97dF41A2aa8f4403e9491776"}
+{"contractVerification":true,"useLedger":true,"derivationPath":"m/44'/60'/2'/0/0","providerName":"mainnet","componentRegistryAddress":"0x15bd56669F57192a97dF41A2aa8f4403e9491776","jobRegistryAddress":"0x0a9a74274b1C30845aF98683Ca7F843795f6DFA6"}
