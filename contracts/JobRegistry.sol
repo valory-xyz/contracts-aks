@@ -4,9 +4,6 @@ pragma solidity ^0.8.19;
 import "./interfaces/IErrors.sol";
 import "./interfaces/IRegistry.sol";
 
-/// @title JobRegistry - Smart contract for dynamically approving component Ids and job contract addresses
-/// @author Aleksandr Kuperman - <aleksandr.kuperman@valory.xyz>
-/// @title JobRegistry - Smart contract that allows "Propose", "Accept", and " Remove" job-component pairs.
 /// "Propose" signals that a job-component pair is ready to be approved. Anyone can propose job-component pairs.  
 /// Note that a job-component pair corresponding to the exact job address and component ID (e.g. (address 1, ID 1))
 /// can be proposed only once and by a unique account at a time, until that specific account removes their proposed pair.
@@ -19,6 +16,7 @@ import "./interfaces/IRegistry.sol";
 /// (respectively, the original proposer) of such a pair.
 /// Note that if a job-component pair is in the removed state this can be reposted through a new proposed transaction.
 
+/// @title JobRegistry - Smart contract that allows "Propose", "Accept", and " Remove" job-component pairs.
 /// @author Aleksandr Kuperman - <aleksandr.kuperman@valory.xyz>
 contract JobRegistry is IErrors {
     event OwnerUpdated(address indexed owner);
