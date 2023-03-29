@@ -41,15 +41,15 @@ async function main() {
     console.log("Contract address:", jobRegistry.address);
     console.log("Transaction:", result.deployTransaction.hash);
 
+    // Writing updated parameters back to the JSON file
+    parsedData.jobRegistryAddress = jobRegistry.address;
+    fs.writeFileSync(globalsFile, JSON.stringify(parsedData));
+
     // Contract verification
     if (parsedData.contractVerification) {
         const execSync = require("child_process").execSync;
         execSync("npx hardhat verify --constructor-args scripts/deployment/verify_01_job_registry.js --network " + providerName + " " + jobRegistry.address, { encoding: "utf-8" });
     }
-
-    // Writing updated parameters back to the JSON file
-    parsedData.jobRegistryAddress = jobRegistry.address;
-    fs.writeFileSync(globalsFile, JSON.stringify(parsedData));
 }
 
 main()
