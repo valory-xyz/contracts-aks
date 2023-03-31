@@ -58,6 +58,9 @@ The description of deployment procedure can be found here: [deployment](https://
 
 The finalized contract ABIs for deployment and their number of optimization passes are located here: [ABIs](https://github.com/valory-xyz/contracts-aks/blob/main/abis).
 
+## Deployed Protocol
+The address can be found [here](https://github.com/valory-xyz/contracts-aks/blob/main/docs/mainnet_addresses.json). 
+
 ## Acknowledgements
 These contracts were inspired and based on the following sources:
 - [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts);
